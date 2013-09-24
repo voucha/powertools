@@ -73,6 +73,10 @@ type
     procedure ActFileOpenAccept(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure ActSearchFindAccept(Sender: TObject);
+    procedure ListCustomerSaveNode(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Stream: TStream);
+    procedure ListCustomerLoadNode(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Stream: TStream);
   private
     { Private declarations }
   public
@@ -207,6 +211,24 @@ begin
   Node.CheckState:=csCheckedNormal;
 end;
 
+procedure TFrmMain.ListCustomerLoadNode(Sender: TBaseVirtualTree;
+  Node: PVirtualNode; Stream: TStream);
+var
+  P: PCustomerRecord;
+begin
+  P:=Sender.GetNodeData(Node);
+  Stream.ReadData(P, SIZE_OF_CUSTOMER_RECORD);
+end;
+
+procedure TFrmMain.ListCustomerSaveNode(Sender: TBaseVirtualTree;
+  Node: PVirtualNode; Stream: TStream);
+var
+  P: PCustomerRecord;
+begin
+  P:=Sender.GetNodeData(Node);
+  Stream.WriteData(P, SIZE_OF_CUSTOMER_RECORD);
+end;
+
 procedure TFrmMain.ResetProgress;
 begin
   lblCounter.Caption:='';
@@ -241,38 +263,54 @@ var
 begin
   Query:=TZQuery.Create(nil);
   try
-    Assert(Assigned(DataModule));
-    Assert(Assigned(FrmMain));
-    if DataModule.showConnectionSetting(FrmMain.Handle) then
-    begin
-      FrmMain.ResetProgress;
-      FrmMain.ShowProgress;
-      DataModule.getCustomerDataset(Query);
-      if Query.RecordCount > 0 then
+    try
+      Assert(Assigned(DataModule));
+      Assert(Assigned(FrmMain));
+      if DataModule.showConnectionSetting(FrmMain.Handle) then
       begin
-        MaxCounter:=Query.RecordCount;
-        FrmMain.ProgressBar.Max:=Query.RecordCount;
-        FrmMain.ListCustomer.BeginUpdate;
-        FrmMain.ListCustomer.Clear;
-        Counter:=1;
-        Query.First;
-        while not (Query.Eof or Terminated) do
+        FrmMain.ResetProgress;
+        FrmMain.ShowProgress;
+        DataModule.getCustomerDataset(Query);
+        if Query.RecordCount > 0 then
         begin
-          Percent:=(Counter/MaxCounter)*100;
-          Node:=FrmMain.ListCustomer.AddChild(nil);
-          P:=FrmMain.ListCustomer.GetNodeData(Node);
-          DataModule.fetchCustomerRecord(Query, P^);
-          FrmMain.lblCounter.Caption:=Format('%d / %d (%.0f%s)',[Counter,
-            MaxCounter, Percent, '%']);
-          FrmMain.lblData.Caption:=P^.Name;
-          FrmMain.lblCounter.Repaint;
-          FrmMain.lblData.Repaint;
-          FrmMain.ProgressBar.StepIt;
-          Query.Next;
-          Inc(Counter);
+          MaxCounter:=Query.RecordCount;
+          FrmMain.ProgressBar.Max:=Query.RecordCount;
+          FrmMain.ListCustomer.BeginUpdate;
+          FrmMain.ListCustomer.Clear;
+          Counter:=1;
+          Query.First;
+          while not (Query.Eof or Terminated) do
+          begin
+            Percent:=(Counter/MaxCounter)*100;
+            Node:=FrmMain.ListCustomer.AddChild(nil);
+            P:=FrmMain.ListCustomer.GetNodeData(Node);
+            DataModule.fetchCustomerRecord(Query, P^);
+            FrmMain.lblCounter.Caption:=Format('%d / %d (%.0f%s)',[Counter,
+              MaxCounter, Percent, '%']);
+            FrmMain.lblData.Caption:=P^.Name;
+            FrmMain.lblCounter.Repaint;
+            FrmMain.lblData.Repaint;
+            FrmMain.ProgressBar.StepIt;
+            Query.Next;
+            Inc(Counter);
+          end;
+          Query.Close;
+          FrmMain.ListCustomer.EndUpdate;
+        end
+        else begin
+          MessageBox(FrmMain.Handle,
+            'Koneksi berhasil namun data tidak ada.',
+            'Import',
+            MB_OK or MB_ICONINFORMATION);
         end;
-        Query.Close;
-        FrmMain.ListCustomer.EndUpdate;
+      end;
+    except
+      on E:Exception do
+      begin
+        MessageBox(FrmMain.Handle,
+          PWideChar(E.Message),
+          'Import',
+          MB_ICONERROR or MB_OK);
       end;
     end;
   finally

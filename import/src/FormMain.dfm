@@ -54,6 +54,8 @@ object FrmMain: TFrmMain
     OnGetText = ListCustomerGetText
     OnGetNodeDataSize = ListCustomerGetNodeDataSize
     OnInitNode = ListCustomerInitNode
+    OnLoadNode = ListCustomerLoadNode
+    OnSaveNode = ListCustomerSaveNode
     Columns = <
       item
         Position = 0
