@@ -7,7 +7,8 @@ uses
   ZDataset,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ToolWin, Vcl.ComCtrls, Vcl.Menus,
-  VirtualTrees, System.Actions, Vcl.ActnList, Vcl.StdActns, Vcl.ListActns, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Imaging.pngimage;
+  VirtualTrees, System.Actions, Vcl.ActnList, Vcl.StdActns, Vcl.ListActns, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Imaging.pngimage,
+  Vcl.ImgList;
 
 type
   TFrmMain = class(TForm)
@@ -55,6 +56,7 @@ type
     Search1: TMenuItem;
     mnFind: TMenuItem;
     mnFindNext: TMenuItem;
+    imgCustomer: TImageList;
     procedure ListCustomerGetNodeDataSize(Sender: TBaseVirtualTree;
       var NodeDataSize: Integer);
     procedure ListCustomerGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -77,6 +79,9 @@ type
       Stream: TStream);
     procedure ListCustomerLoadNode(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Stream: TStream);
+    procedure ListCustomerGetImageIndex(Sender: TBaseVirtualTree;
+      Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+      var Ghosted: Boolean; var ImageIndex: Integer);
   private
     { Private declarations }
   public
@@ -84,6 +89,7 @@ type
     procedure ShowProgress;
     procedure HideProgress;
     procedure ResetProgress;
+    function getParentNode(Data:TCustomerRecord):PVirtualNode;
   end;
 
   TImportThread = class(TThread)
@@ -153,6 +159,29 @@ begin
   pnlProgress.Align:=alClient;
 end;
 
+function TFrmMain.getParentNode(Data: TCustomerRecord): PVirtualNode;
+var
+  Node,ParentNode: PVirtualNode;
+  P: PCustomerRecord;
+begin
+  ParentNode:=nil;
+  try
+    Node:=ListCustomer.GetFirst;
+    while Node <> nil do
+    begin
+      P:=ListCustomer.GetNodeData(Node);
+      if P^.SourceCustomerID = Data.SourceParentID then
+      begin
+        ParentNode:=Node;
+        Break;
+      end;
+      Node:=ListCustomer.GetNext(Node);
+    end;
+  finally
+    Result:=ParentNode;
+  end;
+end;
+
 procedure TFrmMain.HideProgress;
 begin
   pnlProgress.SendToBack;
@@ -181,6 +210,14 @@ begin
   P^.Balance:=0;
   P^.MSISDN:='';
   P^.PIN:='';
+end;
+
+procedure TFrmMain.ListCustomerGetImageIndex(Sender: TBaseVirtualTree;
+  Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
+  var Ghosted: Boolean; var ImageIndex: Integer);
+begin
+  if Column = 0 then
+    ImageIndex:=0;
 end;
 
 procedure TFrmMain.ListCustomerGetNodeDataSize(Sender: TBaseVirtualTree;
@@ -256,8 +293,9 @@ end;
 procedure TImportThread.Execute;
 var
   Query: TZQuery;
-  Node: PVirtualNode;
+  Node, ParentNode: PVirtualNode;
   P:PCustomerRecord;
+  Data: TCustomerRecord;
   MaxCounter, Counter: Integer;
   Percent: Real;
 begin
@@ -282,7 +320,9 @@ begin
           while not (Query.Eof or Terminated) do
           begin
             Percent:=(Counter/MaxCounter)*100;
-            Node:=FrmMain.ListCustomer.AddChild(nil);
+            DataModule.fetchCustomerRecord(Query, Data);
+            ParentNode:=FrmMain.getParentNode(Data);
+            Node:=FrmMain.ListCustomer.AddChild(ParentNode);
             P:=FrmMain.ListCustomer.GetNodeData(Node);
             DataModule.fetchCustomerRecord(Query, P^);
             FrmMain.lblCounter.Caption:=Format('%d / %d (%.0f%s)',[Counter,
