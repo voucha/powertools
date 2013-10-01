@@ -21,7 +21,11 @@ object FrmMain: TFrmMain
     Top = 464
     Width = 711
     Height = 19
-    Panels = <>
+    Panels = <
+      item
+        Text = '0 record'
+        Width = 50
+      end>
   end
   object ListCustomer: TVirtualStringTree
     Left = 0
@@ -55,7 +59,6 @@ object FrmMain: TFrmMain
     OnGetText = ListCustomerGetText
     OnGetImageIndex = ListCustomerGetImageIndex
     OnGetNodeDataSize = ListCustomerGetNodeDataSize
-    OnInitNode = ListCustomerInitNode
     OnLoadNode = ListCustomerLoadNode
     OnSaveNode = ListCustomerSaveNode
     Columns = <
@@ -79,6 +82,12 @@ object FrmMain: TFrmMain
         Position = 3
         Width = 100
         WideText = 'PIN'
+      end
+      item
+        Alignment = taRightJustify
+        Position = 4
+        Width = 100
+        WideText = 'Rebate'
       end>
   end
   object pnlProgress: TPanel
@@ -478,7 +487,7 @@ object FrmMain: TFrmMain
     Left = 348
     Top = 256
     Bitmap = {
-      494C010101000500040010001000FFFFFFFF2100FFFFFFFFFFFFFFFF424D3600
+      494C010101000500040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -614,6 +623,7 @@ object FrmMain: TFrmMain
       8001000000000000800100000000000080010000000000008001000000000000
       8001000000000000C003000000000000E007000000000000F00F000000000000
       F007000000000000F007000000000000F00F000000000000F00F000000000000
-      F81F000000000000FFFF000000000000}
+      F81F000000000000FFFF00000000000000000000000000000000000000000000
+      000000000000}
   end
 end

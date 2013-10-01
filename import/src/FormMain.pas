@@ -61,8 +61,6 @@ type
       var NodeDataSize: Integer);
     procedure ListCustomerGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
-    procedure ListCustomerInitNode(Sender: TBaseVirtualTree; ParentNode,
-      Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure ListCustomerBeforeCellPaint(Sender: TBaseVirtualTree;
       TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
       CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
@@ -133,6 +131,7 @@ begin
     Thread.FreeOnTerminate:=True;
     Thread.OnTerminate:=ThreadTerminate;
     Thread.Start;
+    ActImport.Enabled:=False;
   end;
 end;
 
@@ -210,6 +209,9 @@ begin
   P^.Balance:=0;
   P^.MSISDN:='';
   P^.PIN:='';
+  P^.SourceCustomerID:='';
+  P^.SourceParentID:='';
+  P^.ParentRebate:=0;
 end;
 
 procedure TFrmMain.ListCustomerGetImageIndex(Sender: TBaseVirtualTree;
@@ -238,14 +240,8 @@ begin
   1: CellText:=Format('%.0m', [P^.Balance], FormatSettings);
   2: CellText:=P^.MSISDN;
   3: CellText:=P^.PIN;
+  4: CellText:=Format('%.0m', [P^.ParentRebate], FormatSettings);
   end;
-end;
-
-procedure TFrmMain.ListCustomerInitNode(Sender: TBaseVirtualTree; ParentNode,
-  Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
-begin
-  Node.CheckType:=ctCheckBox;
-  Node.CheckState:=csCheckedNormal;
 end;
 
 procedure TFrmMain.ListCustomerLoadNode(Sender: TBaseVirtualTree;
@@ -286,6 +282,7 @@ begin
   FrmMain.HideProgress;
   DataModule:=nil;
   Thread:=nil;
+  ActImport.Enabled:=True;
 end;
 
 { TImportThread }
@@ -354,6 +351,8 @@ begin
       end;
     end;
   finally
+    FrmMain.StatusBar.Panels[0].Text:=Format('%d record',[Counter]);
+    FrmMain.StatusBar.Invalidate;
     FrmMain.HideProgress;
     FreeAndNil(Query);
   end;
