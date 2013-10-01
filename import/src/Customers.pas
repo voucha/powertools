@@ -9,10 +9,12 @@ type
     MSISDN: string;
     PIN: string;
     IsImport: Boolean;
-    SourceCustomerID: LongInt;
-    SourceParentID: LongInt;
+    SourceCustomerID: string;
+    SourceParentID: string;
     CustomerID: LongInt;
     ParentID: LongInt;
+    ParentRebate: Currency;
+    TimeRegister: TDateTime;
     ImportStatus: Byte;
   end;
   PCustomerRecord = ^TCustomerRecord;
