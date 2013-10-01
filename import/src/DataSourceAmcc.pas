@@ -58,9 +58,12 @@ begin
     Value.MSISDN:=Query.FieldByName('MSISDN1').AsString;
     Value.PIN:=Query.FieldByName('AuthCodeSMS').AsString;
     Value.IsImport:=True;
-    Value.SourceCustomerID:=Query.FieldByName('Tmp_DealerID').AsInteger;
-    Value.SourceParentID:=Query.FieldByName('Tmp_UplineID').AsInteger;
+    Value.SourceCustomerID:=Query.FieldByName('DealerID').AsString;
+    Value.SourceParentID:=Query.FieldByName('UplineID').AsString;
     Value.CustomerID:=0;
+    Value.ParentID:=0;
+    Value.ParentRebate:=Query.FieldByName('Markup').AsCurrency;
+    Value.TimeRegister:=Query.FieldByName('RegisteredTime').AsDateTime;
   finally
 
   end;
