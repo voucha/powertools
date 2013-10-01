@@ -11,7 +11,6 @@ uses
   ImportDialogs in 'ImportDialogs.pas',
   Settings in 'Settings.pas',
   DataSourceIntf in 'DataSourceIntf.pas',
-  ThreadImport in 'ThreadImport.pas',
   FormSettingPostgreSQL in 'FormSettingPostgreSQL.pas' {FrmSettingPostgreSQL},
   DataTargetVoucha4 in 'DataTargetVoucha4.pas' {DataModule1: TDataModule};
 
