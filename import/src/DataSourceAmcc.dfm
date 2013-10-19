@@ -1,4 +1,4 @@
-object DataAmcc: TDataAmcc
+object SourceAmcc: TSourceAmcc
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Height = 258

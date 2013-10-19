@@ -1,11 +1,13 @@
-object DataModule1: TDataModule1
+object TargetVoucha4: TTargetVoucha4
   OldCreateOrder = False
+  OnCreate = DataModuleCreate
   Height = 224
   Width = 397
   object Connection: TZConnection
     ControlsCodePage = cCP_UTF16
     UTF8StringsAsWideField = True
     Catalog = ''
+    BeforeConnect = ConnectionBeforeConnect
     HostName = ''
     Port = 0
     Database = ''

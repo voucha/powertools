@@ -11,7 +11,7 @@ function ShowSelectDatasource(ParentHandle: HWND; var SelectedIndex:
 function ShowSettingMySQL(ParentHandle: HWND;
   var MySQLSetting:TMySQLSetting):Boolean;
 function ShowSettingPostgreSQL(ParentHandle: HWND;
-  var Setting:TPostgreSQLSetting):Boolean;
+  var PgSQLSetting:TPostgreSQLSetting):Boolean;
 
 implementation
 
@@ -60,8 +60,8 @@ begin
   end;
 end;
 
-function ShowSettingPostgreSQL(ParentHandle: HWND; var Setting:
-  TPostgreSQLSetting):Boolean;
+function ShowSettingPostgreSQL(ParentHandle: HWND; var
+  PgSQLSetting:TPostgreSQLSetting):Boolean;
 var
   F: TFrmSettingPostgreSQL;
   Executed: Boolean;
@@ -69,10 +69,10 @@ begin
   Executed:=False;
   F:=TFrmSettingPostgreSQL.CreateParented(ParentHandle);
   try
-    F.setSetting(Setting);
+    F.setSetting(PgSQLSetting);
     if F.ShowModal = mrOK then
     begin
-      F.getSetting(Setting);
+      F.getSetting(PgSQLSetting);
       Executed:=True;
     end;
   finally

@@ -7,7 +7,7 @@ uses
   System.SysUtils, System.Classes, DataSourceIntf, ZAbstractConnection, ZConnection, ZDataset;
 
 type
-  TDataAmcc = class(TDataModule, IImportDataSource)
+  TSourceAmcc = class(TDataModule, IImportDataSource)
     Connection: TZConnection;
     procedure ConnectionBeforeConnect(Sender: TObject);
     procedure DataModuleCreate(Sender: TObject);
@@ -16,13 +16,15 @@ type
     Setting: TMySQLSetting;
   public
     { Public declarations }
+    function showConnectionSetting(ParentHandle: HWND): Boolean;
+    procedure Connect;
+    procedure Disconnnect;
     procedure getCustomerDataset(Query: TZQuery);
     procedure fetchCustomerRecord(Query: TZQuery; var Value: TCustomerRecord);
-    function showConnectionSetting(ParentHandle: HWND): Boolean;
   end;
 
 var
-  DataAmcc: TDataAmcc;
+  SourceAmcc: TSourceAmcc;
 
 implementation
 
@@ -32,7 +34,12 @@ implementation
 
 { TDataAmcc }
 
-procedure TDataAmcc.ConnectionBeforeConnect(Sender: TObject);
+procedure TSourceAmcc.Connect;
+begin
+  Connection.Connect;
+end;
+
+procedure TSourceAmcc.ConnectionBeforeConnect(Sender: TObject);
 begin
   Connection.HostName:=Setting.Hostname;
   Connection.Database:=Setting.Database;
@@ -42,20 +49,33 @@ begin
   Connection.Protocol:='mysql';
 end;
 
-procedure TDataAmcc.DataModuleCreate(Sender: TObject);
+procedure TSourceAmcc.DataModuleCreate(Sender: TObject);
 begin
   SetDefaultMySQLSetting(Setting);
   Setting.Database:='amcc2';
 end;
 
-procedure TDataAmcc.fetchCustomerRecord(Query: TZQuery;
+procedure TSourceAmcc.Disconnnect;
+begin
+  Connection.Disconnect;
+end;
+
+procedure TSourceAmcc.fetchCustomerRecord(Query: TZQuery;
   var Value: TCustomerRecord);
 begin
   try
     Assert(Assigned(Query));
+    InitCustomerRecord(Value);
     Value.Name:=Query.FieldByName('Name').AsString;
     Value.Balance:=Query.FieldByName('balance').AsCurrency;
+    if Value.Balance < 0 then
+    begin
+      Value.Credit:=Abs(Value.Balance);
+      Value.Balance:=0;
+    end;
+
     Value.MSISDN:=Query.FieldByName('MSISDN1').AsString;
+    Value.MSISDN:=fixMsisdn(Value.MSISDN);
     Value.PIN:=Query.FieldByName('AuthCodeSMS').AsString;
     Value.IsImport:=True;
     Value.SourceCustomerID:=Query.FieldByName('DealerID').AsString;
@@ -69,7 +89,7 @@ begin
   end;
 end;
 
-procedure TDataAmcc.getCustomerDataset(Query: TZQuery);
+procedure TSourceAmcc.getCustomerDataset(Query: TZQuery);
 begin
   try
     Assert(Assigned(Query));
@@ -82,7 +102,7 @@ begin
   end;
 end;
 
-function TDataAmcc.showConnectionSetting(ParentHandle: HWND): Boolean;
+function TSourceAmcc.showConnectionSetting(ParentHandle: HWND): Boolean;
 begin
   Result:=ShowSettingMySQL(ParentHandle, Setting);
 end;

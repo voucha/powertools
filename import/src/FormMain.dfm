@@ -27,80 +27,17 @@ object FrmMain: TFrmMain
         Width = 50
       end>
   end
-  object ListCustomer: TVirtualStringTree
-    Left = 0
-    Top = 0
-    Width = 711
-    Height = 100
-    Align = alClient
-    Color = clWhite
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Verdana'
-    Font.Style = []
-    Header.AutoSizeIndex = 0
-    Header.DefaultHeight = 22
-    Header.Font.Charset = ANSI_CHARSET
-    Header.Font.Color = clWindowText
-    Header.Font.Height = -11
-    Header.Font.Name = 'Verdana'
-    Header.Font.Style = []
-    Header.Height = 22
-    Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoShowImages, hoShowSortGlyphs, hoVisible]
-    Images = imgCustomer
-    ParentFont = False
-    TabOrder = 1
-    TreeOptions.MiscOptions = [toAcceptOLEDrop, toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
-    TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-    TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toMultiSelect]
-    OnBeforeCellPaint = ListCustomerBeforeCellPaint
-    OnFreeNode = ListCustomerFreeNode
-    OnGetText = ListCustomerGetText
-    OnGetImageIndex = ListCustomerGetImageIndex
-    OnGetNodeDataSize = ListCustomerGetNodeDataSize
-    OnLoadNode = ListCustomerLoadNode
-    OnSaveNode = ListCustomerSaveNode
-    Columns = <
-      item
-        Position = 0
-        Width = 200
-        WideText = 'Nama'
-      end
-      item
-        Alignment = taRightJustify
-        Position = 1
-        Width = 100
-        WideText = 'Saldo'
-      end
-      item
-        Position = 2
-        Width = 150
-        WideText = 'MSISDN'
-      end
-      item
-        Position = 3
-        Width = 100
-        WideText = 'PIN'
-      end
-      item
-        Alignment = taRightJustify
-        Position = 4
-        Width = 100
-        WideText = 'Rebate'
-      end>
-  end
   object pnlProgress: TPanel
     Left = 0
-    Top = 100
+    Top = 268
     Width = 711
-    Height = 364
+    Height = 196
     Align = alBottom
-    TabOrder = 2
+    TabOrder = 1
     DesignSize = (
       711
-      364)
-    object Label1: TLabel
+      196)
+    object lbProgressTitle: TLabel
       Left = 76
       Top = 16
       Width = 204
@@ -327,10 +264,123 @@ object FrmMain: TFrmMain
       TabOrder = 1
       OnClick = btnCancelClick
     end
+    object mmoLog: TMemo
+      Left = 18
+      Top = 99
+      Width = 673
+      Height = 89
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      Color = clBtnFace
+      ReadOnly = True
+      ScrollBars = ssBoth
+      TabOrder = 2
+    end
+  end
+  object pnlList: TPanel
+    Left = 0
+    Top = 0
+    Width = 711
+    Height = 268
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 2
+    object ListCustomer: TVirtualStringTree
+      Left = 0
+      Top = 0
+      Width = 526
+      Height = 268
+      Align = alClient
+      Color = clWhite
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Verdana'
+      Font.Style = []
+      Header.AutoSizeIndex = 0
+      Header.DefaultHeight = 22
+      Header.Font.Charset = ANSI_CHARSET
+      Header.Font.Color = clWindowText
+      Header.Font.Height = -11
+      Header.Font.Name = 'Verdana'
+      Header.Font.Style = []
+      Header.Height = 22
+      Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoShowImages, hoShowSortGlyphs, hoVisible]
+      Images = imgCustomer
+      ParentFont = False
+      TabOrder = 0
+      TreeOptions.MiscOptions = [toAcceptOLEDrop, toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
+      TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+      TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toMultiSelect]
+      OnBeforeCellPaint = ListCustomerBeforeCellPaint
+      OnFocusChanged = ListCustomerFocusChanged
+      OnFreeNode = ListCustomerFreeNode
+      OnGetText = ListCustomerGetText
+      OnGetImageIndex = ListCustomerGetImageIndex
+      OnGetNodeDataSize = ListCustomerGetNodeDataSize
+      OnLoadNode = ListCustomerLoadNode
+      OnSaveNode = ListCustomerSaveNode
+      Columns = <
+        item
+          Position = 0
+          Width = 200
+          WideText = 'Nama'
+        end
+        item
+          Alignment = taRightJustify
+          Position = 1
+          Width = 100
+          WideText = 'Saldo'
+        end
+        item
+          Alignment = taRightJustify
+          Position = 2
+          Width = 100
+          WideText = 'Hutang'
+        end
+        item
+          Position = 3
+          Width = 150
+          WideText = 'MSISDN'
+        end
+        item
+          Position = 4
+          Width = 100
+          WideText = 'PIN'
+        end
+        item
+          Alignment = taRightJustify
+          Position = 5
+          Width = 100
+          WideText = 'Rebate'
+        end>
+    end
+    object pnlInfo: TPanel
+      Left = 526
+      Top = 0
+      Width = 185
+      Height = 268
+      Align = alRight
+      TabOrder = 1
+      object Label1: TLabel
+        Left = 12
+        Top = 12
+        Width = 27
+        Height = 13
+        Caption = 'Nama'
+      end
+      object lblNama: TLabel
+        Left = 12
+        Top = 28
+        Width = 153
+        Height = 13
+        AutoSize = False
+        Caption = '-'
+      end
+    end
   end
   object MainMenu: TMainMenu
-    Left = 268
-    Top = 60
+    Left = 667
+    Top = 439
     object mnData: TMenuItem
       Caption = '&Data'
       object mnOpen: TMenuItem
@@ -343,7 +393,7 @@ object FrmMain: TFrmMain
         Action = ActImport
       end
       object mnExport: TMenuItem
-        Action = actExport
+        Action = ActExport
       end
       object N2: TMenuItem
         Caption = '-'
@@ -387,8 +437,8 @@ object FrmMain: TFrmMain
     end
   end
   object ActionList: TActionList
-    Left = 324
-    Top = 80
+    Left = 603
+    Top = 439
     object ActFileOpen: TFileOpen
       Category = 'File'
       Caption = '&Open...'
@@ -398,6 +448,7 @@ object FrmMain: TFrmMain
       Hint = 'Open|Opens an existing file'
       ImageIndex = 7
       ShortCut = 16463
+      Visible = False
       OnAccept = ActFileOpenAccept
     end
     object ActFileSaveAs: TFileSaveAs
@@ -408,6 +459,7 @@ object FrmMain: TFrmMain
       Dialog.Title = 'Simpan data import'
       Hint = 'Save As|Saves the active file with a new name'
       ImageIndex = 30
+      Visible = False
       OnAccept = ActFileSaveAsAccept
     end
     object ActFileExit: TFileExit
@@ -462,9 +514,10 @@ object FrmMain: TFrmMain
       Caption = 'Import Database'
       OnExecute = ActImportExecute
     end
-    object actExport: TAction
+    object ActExport: TAction
       Category = 'File'
       Caption = 'Simpan ke Voucha4'
+      OnExecute = ActExportExecute
     end
     object ActSearchFind: TSearchFind
       Category = 'Search'
@@ -484,8 +537,8 @@ object FrmMain: TFrmMain
   end
   object imgCustomer: TImageList
     ColorDepth = cd32Bit
-    Left = 348
-    Top = 256
+    Left = 635
+    Top = 439
     Bitmap = {
       494C010101000500040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010

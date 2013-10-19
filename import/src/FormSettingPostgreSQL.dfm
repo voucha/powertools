@@ -1,8 +1,9 @@
 object FrmSettingPostgreSQL: TFrmSettingPostgreSQL
   Left = 0
   Top = 0
+  ActiveControl = edtHostname
   BorderStyle = bsDialog
-  Caption = 'MySQL Connection Setting'
+  Caption = 'PostgreSQL Connection Setting'
   ClientHeight = 248
   ClientWidth = 500
   Color = clBtnFace
@@ -78,7 +79,7 @@ object FrmSettingPostgreSQL: TFrmSettingPostgreSQL
       Width = 189
       Height = 21
       TabOrder = 2
-      Text = 'root'
+      Text = 'postgres'
     end
     object edtPassword: TEdit
       Left = 164

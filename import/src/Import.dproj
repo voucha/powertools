@@ -116,7 +116,7 @@
         </DCCReference>
         <DCCReference Include="Customers.pas"/>
         <DCCReference Include="DataSourceAmcc.pas">
-            <Form>DataAmcc</Form>
+            <Form>SourceAmcc</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
@@ -128,7 +128,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="DataTargetVoucha4.pas">
-            <Form>DataModule1</Form>
+            <Form>TargetVoucha4</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
