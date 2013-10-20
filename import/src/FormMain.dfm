@@ -266,9 +266,9 @@ object FrmMain: TFrmMain
     end
     object mmoLog: TMemo
       Left = 18
-      Top = 99
+      Top = 108
       Width = 673
-      Height = 89
+      Height = 69
       Anchors = [akLeft, akTop, akRight, akBottom]
       Color = clBtnFace
       ReadOnly = True
@@ -364,13 +364,42 @@ object FrmMain: TFrmMain
       object Label1: TLabel
         Left = 12
         Top = 12
-        Width = 27
+        Width = 153
         Height = 13
+        AutoSize = False
         Caption = 'Nama'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
       end
       object lblNama: TLabel
         Left = 12
         Top = 28
+        Width = 153
+        Height = 13
+        AutoSize = False
+        Caption = '-'
+      end
+      object Label3: TLabel
+        Left = 12
+        Top = 44
+        Width = 153
+        Height = 13
+        AutoSize = False
+        Caption = 'Sub-Agen'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object lblTotalSubAgent: TLabel
+        Left = 12
+        Top = 60
         Width = 153
         Height = 13
         AutoSize = False
@@ -512,11 +541,13 @@ object FrmMain: TFrmMain
     object ActImport: TAction
       Category = 'File'
       Caption = 'Import Database'
+      ShortCut = 16457
       OnExecute = ActImportExecute
     end
     object ActExport: TAction
       Category = 'File'
       Caption = 'Simpan ke Voucha4'
+      ShortCut = 16453
       OnExecute = ActExportExecute
     end
     object ActSearchFind: TSearchFind

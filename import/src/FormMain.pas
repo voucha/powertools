@@ -62,6 +62,8 @@ type
     Label1: TLabel;
     lblNama: TLabel;
     mmoLog: TMemo;
+    Label3: TLabel;
+    lblTotalSubAgent: TLabel;
     procedure ListCustomerGetNodeDataSize(Sender: TBaseVirtualTree;
       var NodeDataSize: Integer);
     procedure ListCustomerGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -253,6 +255,7 @@ var
 begin
   P:=Sender.GetNodeData(Node);
   lblNama.Caption:=P^.Name;
+  lblTotalSubAgent.Caption:=Format('%d',[Sender.ChildCount[Node]]);
 end;
 
 procedure TFrmMain.ListCustomerFreeNode(Sender: TBaseVirtualTree;
