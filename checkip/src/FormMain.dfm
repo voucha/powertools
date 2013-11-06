@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Check Public IP'
-  ClientHeight = 166
+  ClientHeight = 196
   ClientWidth = 428
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -53,6 +53,16 @@ object Form1: TForm1
     Caption = '&Check'
     TabOrder = 1
     OnClick = btnCheckClick
+  end
+  object lnklbl1: TLinkLabel
+    Left = 32
+    Top = 164
+    Width = 297
+    Height = 17
+    Caption = 
+      'Klik <a href="http://support.voucha.co.id/">support.voucha.co.id' +
+      '</a> untuk support dan problem solving.'
+    TabOrder = 2
   end
   object HTTP: TIdHTTP
     AllowCookies = True

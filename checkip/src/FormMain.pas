@@ -14,6 +14,7 @@ type
     Label1: TLabel;
     btnCheck: TButton;
     HTTP: TIdHTTP;
+    lnklbl1: TLinkLabel;
     procedure btnCheckClick(Sender: TObject);
   private
     { Private declarations }
