@@ -57,11 +57,11 @@ object Form1: TForm1
   object lnklbl1: TLinkLabel
     Left = 32
     Top = 164
-    Width = 297
+    Width = 276
     Height = 17
     Caption = 
-      'Klik <a href="http://support.voucha.co.id/">support.voucha.co.id' +
-      '</a> untuk support dan problem solving.'
+      'Klik <a href="https://ask.voucha.co.id/">ask.voucha.co.id</a> un' +
+      'tuk support dan problem solving.'
     TabOrder = 2
   end
   object HTTP: TIdHTTP

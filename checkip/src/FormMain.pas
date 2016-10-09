@@ -35,7 +35,7 @@ begin
     try
       HTTP.ConnectTimeout:=3000;
       HTTP.ReadTimeout:=3000;
-      edtIP.Text:=HTTP.Get('http://checkip.sandiloka.com');
+      edtIP.Text:=HTTP.Get('http://bot.whatismyipaddress.com/');
     except
       on E:EIdConnectTimeout do
         MessageBox(Handle, PWideChar('Check IP Gagal karena koneksi internet Anda lambat. '+E.Message), 'Check IP', MB_OK or
@@ -50,7 +50,7 @@ begin
       end;
     end;
   finally
-
+    HTTP.Disconnect;
   end;
 end;
 
